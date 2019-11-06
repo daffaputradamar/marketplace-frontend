@@ -24,7 +24,6 @@ function CardLogTransaksi(props) {
   }
   return (
     <Container>
-      
       <Segment style={styles.verticalSpace}>
       <Header as="h2">Usaha : {props.transaksi.usaha.nama}</Header>
         <Grid columns={2} celled verticalAlign="middle" textAlign="center">
@@ -73,7 +72,6 @@ function CardLogTransaksi(props) {
             <Icon name="dropdown" />
             Ulasan
           </Accordion.Title>
-          
           <Accordion.Content active={activeIndex=== 4}><ItemReview
           transaksi={props.transaksi}/></Accordion.Content>
           

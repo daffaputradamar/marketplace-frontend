@@ -9,11 +9,13 @@ import {
   Header,
   Divider,
   Form,
-  Button,
+  Button
 } from 'semantic-ui-react'
 import axios from 'axios'
+import ItemUlasan from './ItemUlasan'
 
 function DetailProduk(props) {
+  console.log(props)
   const context = useContext(UserContext)
   const [produk, setProduk] = useState(props.location.state)
   const [usaha, setUsaha] = useState({})
@@ -210,7 +212,10 @@ function DetailProduk(props) {
             )}
           </Grid>
         </Grid.Column>
+        
       </Grid>
+      <Header as="h3">Ulasan</Header>
+      <ItemUlasan/>
     </Container>
   )
 }
