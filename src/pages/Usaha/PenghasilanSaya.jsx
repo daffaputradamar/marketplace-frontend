@@ -1,51 +1,54 @@
-import React from 'react'
-import { Grid, Segment, Dropdown, Divider } from 'semantic-ui-react'
+import React, {useContext, useEffect, useState} from 'react'
+import PenghasilanSayaItem from './PenghasilanSayaItem'
+import { HOSTNAME, UserContext } from '../../App'
+import axios from 'axios';
+import { Segment, Dimmer, Loader } from 'semantic-ui-react';
 
-function PenghasilanSaya() {
-  const statusOptions = [
-    {
-      key: 'Pesanan Dibuat',
-      text: 'Pesanan Dibuat',
-      value: 'Pesanan Dibuat',
-    },
-    {
-      key: 'Pesanan Siap',
-      text: 'Pesanan Siap',
-      value: 'Pesanan Siap',
-    },
-    {
-      key: 'Pesanan Dibayar',
-      text: 'Pesanan Dibayar',
-      value: 'Pesanan Dibayar',
-    },
-  ]
+function PenghasilanSaya(props) {
+  const context = useContext(UserContext)
+
+  useEffect(() => {
+    setLoading(true)
+		axios
+			.get(`${HOSTNAME}/transaksi/usaha`, {
+				headers: { Authorization: `Bearer ${context.token}` }
+			})
+			.then((res) => {
+        setKumpulanTransaksi(res.data);
+        const transaksiSelesai = res.data.filter(transaksi => transaksi.selesai)
+        setSelectedTransaksi(transaksiSelesai);
+        console.log(transaksiSelesai)
+        setLoading(false)
+			});
+  }, []);
+
+  const [ kumpulanTransaksi, setKumpulanTransaksi ] = useState([]);
+  const [ selectedTransaksi, setSelectedTransaksi ] = useState([]);
+  const [loading, setLoading] = useState(false)
+  
   return (
-    <React.Fragment>
+    loading ? (
       <Segment>
-        <Grid.Row>
-          <Grid columns={2}>
-            <Grid.Column width="7">
-              Status Pesanan :
-              <Dropdown
-                style={styles.marginLeft}
-                placeholder="Pilih Status Pesanan"
-                selection
-                options={statusOptions}></Dropdown>
-            </Grid.Column>
-            <Grid.Column width="7">Pesanan sampai dengan tanggal :</Grid.Column>
-          </Grid>
-        </Grid.Row>
-        <Divider />
-        <Grid.Row>Kriteria Utama :</Grid.Row>
+        <Dimmer active inverted>
+          <Loader inverted content="loading" />
+        </Dimmer>
       </Segment>
-    </React.Fragment>
+    ) : (
+      selectedTransaksi.map(transaksi => {
+        const dateTime = new Date(transaksi.createdAt);
+        const date = dateTime.getDate();
+        const month = dateTime.getMonth() + 1;
+        const year = dateTime.getFullYear();
+        const hour = dateTime.getHours();
+        const minutes = dateTime.getMinutes();
+
+        const time = `${date}-${month}-${year} ${hour}:${minutes}`;
+        return(
+          <PenghasilanSayaItem transaksi={transaksi} time={time} key={transaksi.id_transaksi}/>
+        )
+      })
+    )
   )
 }
 
 export default PenghasilanSaya
-
-const styles = {
-  marginLeft: {
-    marginLeft: '20px',
-  },
-}

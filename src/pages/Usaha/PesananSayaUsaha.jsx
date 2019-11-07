@@ -10,7 +10,7 @@ function PesananSayaUsaha(props) {
 		const transactions = kumpulanTransaksi;
 		switch (item) {
 			case listActiveItemPesanan.semuaPesanan:
-				setSelectedTransaksi(transactions);
+				setSelectedTransaksi(transactions. filter((transaction) => !transaction.selesai));
 				break;
 			case listActiveItemPesanan.belumBayar:
 				setSelectedTransaksi(transactions.filter((transaction) => !transaction.konfirmasi));
@@ -21,10 +21,7 @@ function PesananSayaUsaha(props) {
 				);
 				break;
 			case listActiveItemPesanan.dikirim:
-				setSelectedTransaksi(transactions.filter((transaction) => transaction.kirim));
-				break;
-			case listActiveItemPesanan.selesai:
-				setSelectedTransaksi(transactions.filter((transaction) => transaction.konfirmasi));
+				setSelectedTransaksi(transactions.filter((transaction) => transaction.kirim && !transaction.selesai));
 				break;
 		}
 		setActiveItemPesanan(item);
@@ -47,7 +44,8 @@ function PesananSayaUsaha(props) {
 						headers: { Authorization: `Bearer ${context.token}` }
 					})
 					.then((res) => {
-						setKumpulanTransaksi(res.data);
+						const finishedTransaksi = res.data.filter(transaksi => !transaksi.selesai)
+						setKumpulanTransaksi(finishedTransaksi);
 						setActiveItemData(listActiveItemPesanan.dikirim);
 					});
 			});
@@ -60,7 +58,7 @@ function PesananSayaUsaha(props) {
 			})
 			.then((res) => {
 				setKumpulanTransaksi(res.data);
-				setSelectedTransaksi(res.data);
+				setActiveItemData(listActiveItemPesanan.semuaPesanan);
 			});
 	}, []);
 
