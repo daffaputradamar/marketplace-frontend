@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import PenghasilanSayaItem from './PenghasilanSayaItem'
 import { HOSTNAME, UserContext } from '../../App'
 import axios from 'axios';
-import { Segment, Dimmer, Loader } from 'semantic-ui-react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 function PenghasilanSaya(props) {
   const context = useContext(UserContext)
@@ -28,11 +28,9 @@ function PenghasilanSaya(props) {
   
   return (
     loading ? (
-      <Segment>
         <Dimmer active inverted>
           <Loader inverted content="loading" />
         </Dimmer>
-      </Segment>
     ) : (
       selectedTransaksi.map(transaksi => {
         const dateTime = new Date(transaksi.createdAt);

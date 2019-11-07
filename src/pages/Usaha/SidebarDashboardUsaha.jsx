@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import { Menu, Button, Container, Grid, Segment } from 'semantic-ui-react';
+import { Menu, } from 'semantic-ui-react';
 import { UserContext } from '../../App';
 
 export const listActiveItem = {
@@ -50,7 +50,12 @@ function SidebarDashboardUsaha(props) {
               props.setActiveItem(listActiveItem.penghasilanSaya)
             }
           />
-          <Menu.Item name="Saldo Saya" />
+          <Menu.Item name="Saldo Saya" 
+          active={props.activeItem === listActiveItem.saldoSaya}
+          onClick={event => 
+            props.setActiveItem(listActiveItem.saldoSaya)
+          }
+          />
         </Menu.Menu>
       </Menu.Item>
     </Menu>

@@ -127,15 +127,13 @@ function TambahProduk(props) {
                       }
                       value={input.stok}
                     />
-                    <Form.Input
-                      fluid
-                      id="berat"
-                      label="Berat Produk (dalam gram)"
-                      onChange={event =>
+                    <Form.Field>
+                      <label>Berat Produk</label>
+                      <Input id="berat" label="gram" labelPosition="right" onChange={event =>
                         changeValue(event.target.value, 'berat')
                       }
-                      value={input.berat}
-                    />
+                      value={input.berat} />
+                    </Form.Field>
                   </Form.Group>
                   <Form.TextArea
                     label="Deskripsi Produk"
