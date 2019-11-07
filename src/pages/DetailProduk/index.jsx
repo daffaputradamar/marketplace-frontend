@@ -9,28 +9,33 @@ import {
   Header,
   Divider,
   Form,
-  Button
+  Button,
+  Segment,
+  Dimmer,
+  Loader,
 } from 'semantic-ui-react'
 import axios from 'axios'
 import ItemUlasan from './ItemUlasan'
 
 function DetailProduk(props) {
-  console.log(props)
   const context = useContext(UserContext)
   const [produk, setProduk] = useState(props.location.state)
   const [usaha, setUsaha] = useState({})
   const [jumlah, setJumlah] = useState(1)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     axios
       .get(`${HOSTNAME}/usaha/${produk.id_usaha}/produk/${produk.id_produk}`)
       .then(res => {
-        console.log(res.data)
+        console.log(res.data.reviews)
         setUsaha(res.data.usaha)
         setProduk(res.data)
         if (doesHaveSameUsahaId()) {
           setJumlah(produk.stok)
         }
+        setLoading(false)
       })
   }, [])
 
@@ -88,7 +93,7 @@ function DetailProduk(props) {
     }
   }
 
-  return (
+  return !loading ? (
     <Container>
       <Grid columns={2} relaxed="very">
         <Grid.Column width="8">
@@ -212,11 +217,20 @@ function DetailProduk(props) {
             )}
           </Grid>
         </Grid.Column>
-        
       </Grid>
       <Header as="h3">Ulasan</Header>
-      <ItemUlasan/>
+      {produk.reviews.map(review => {
+        return <ItemUlasan review={review} key={review.id_review} />
+      })}
     </Container>
+  ) : (
+    <Segment>
+      <Dimmer active inverted>
+        <Loader inverted content="Loading" />
+      </Dimmer>
+
+      <Image src="/images/wireframe/short-paragraph.png" />
+    </Segment>
   )
 }
 
