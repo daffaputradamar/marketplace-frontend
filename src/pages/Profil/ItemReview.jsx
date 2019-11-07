@@ -50,11 +50,9 @@ function ItemReview(props) {
                   </Grid.Column>
                   <Grid.Column width={11}>
                     <Grid>
-                      <Grid.Column width={4}>
-                        
-                      </Grid.Column>
+                      <Grid.Column width={4}></Grid.Column>
                       <Grid.Column width={11}>
-					  <p style={{ fontSize: 15 }}>Telah direview</p>
+                        <p style={{ fontSize: 15 }}>Telah direview</p>
                       </Grid.Column>
                     </Grid>
                   </Grid.Column>
@@ -104,6 +102,7 @@ function ItemReview(props) {
                     rows={3}
                     style={{ width: 300, height: 80 }}
                     onChange={e => setKomentar(e.target.value)}
+                    value={komentar}
                   />
                   <Button
                     color="yellow"
