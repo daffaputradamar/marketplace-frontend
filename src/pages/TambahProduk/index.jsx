@@ -130,7 +130,7 @@ function TambahProduk(props) {
                     <Form.Input
                       fluid
                       id="berat"
-                      label="Berat Produk"
+                      label="Berat Produk (dalam gram)"
                       onChange={event =>
                         changeValue(event.target.value, 'berat')
                       }

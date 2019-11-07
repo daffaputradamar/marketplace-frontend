@@ -159,11 +159,6 @@ function DaftarUsaha(props) {
                   changeValue(event.target.value, 'detail_alamat')
                 }
               />
-              <Form.Input
-                id="logo-usaha"
-                label="Logo Usaha"
-                type="file"
-                onChange={e => setSelectedFile(e.target.files[0])}></Form.Input>
               <Form.Button color="green" size="big" onClick={daftarUsaha}>
                 Daftar
               </Form.Button>
