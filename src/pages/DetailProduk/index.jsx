@@ -20,6 +20,7 @@ import ItemUlasan from './ItemUlasan'
 function DetailProduk(props) {
   const context = useContext(UserContext)
   const [produk, setProduk] = useState(props.location.state)
+  const [kumpulanReview, setKumpulanReview] = useState([])
   const [usaha, setUsaha] = useState({})
   const [jumlah, setJumlah] = useState(1)
   const [loading, setLoading] = useState(false)
@@ -29,9 +30,9 @@ function DetailProduk(props) {
     axios
       .get(`${HOSTNAME}/usaha/${produk.id_usaha}/produk/${produk.id_produk}`)
       .then(res => {
-        console.log(res.data.reviews)
         setUsaha(res.data.usaha)
         setProduk(res.data)
+        setKumpulanReview(res.data.reviews)
         if (doesHaveSameUsahaId()) {
           setJumlah(produk.stok)
         }
@@ -219,9 +220,10 @@ function DetailProduk(props) {
         </Grid.Column>
       </Grid>
       <Header as="h3">Ulasan</Header>
-      {produk.reviews.map(review => {
-        return <ItemUlasan review={review} key={review.id_review} />
-      })}
+      {!loading &&
+        kumpulanReview.map(review => {
+          return <ItemUlasan review={review} key={review.id_review} />
+        })}
     </Container>
   ) : (
     <Segment>

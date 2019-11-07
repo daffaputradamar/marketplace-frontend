@@ -2,20 +2,21 @@ import React from 'react'
 import { Header, Segment } from 'semantic-ui-react'
 import StarRatings from 'react-star-ratings'
 
-function ItemUlasan() {
+function ItemUlasan(props) {
   return (
     <Segment>
       <StarRatings
-        starRatedColor="blue"
+        starRatedColor="rgb(243, 156, 18)"
         numberOfStars={5}
         name="rating"
+        rating={props.review.rating}
         starDimension="20px"
         starSpacing="5px"
       />
       <Header as="h5" style={{ marginTop: 10 }}>
-        Oleh :{' '}
+        Oleh : {props.review.pengguna.nama}
       </Header>
-      <p>AWassdad</p>
+      <p>{props.review.komentar}</p>
     </Segment>
   )
 }
