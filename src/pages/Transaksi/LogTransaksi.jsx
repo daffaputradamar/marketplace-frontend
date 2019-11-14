@@ -7,6 +7,7 @@ import { UserContext, HOSTNAME } from '../../App'
 function LogTransaksi(props) {
   const context = useContext(UserContext)
   const [kumpulanTransaksi, setKumpulanTransaksi] = useState([])
+  const [loading, setloading] = useState(false)
 
   useEffect(() => {
     axios
